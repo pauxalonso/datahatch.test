@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataHatch.ai — AI Engineering & Databricks Partner · London</title>
+<meta name="description" content="DataHatch is an official Databricks partner and AI engineering consultancy based in London. Precision AI engineering for enterprises that demand results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+:root{
+  --bg:#070B14;--bg-alt:#0F131D;--card:#0F131D;--card-hi:#0F131D;
+  --nav-pill:#0F131D;--badge-bg:#0F131D;
+  --acc:#719CFF;--acc-link:#719CFF;
+  --acc-2:rgba(82,101,176,.15);--acc-3:rgba(82,101,176,.32);
+  --btn-light:#EAECF8;--btn-text:#101116;
+  --t1:#EAECF8;--t2:#B2B7C7;--t3:#C5C5D2;--t4:#6B7190;
+  --t5:#A0A5C3;--t6:#6A6E82;--t-white:#FDFDFF;--t-e3:#E3E1EC;
+  --badge-dot:#719CFF;
+  --bdr:#ffffff12;--bdr-acc:rgba(82,101,176,.32);
+  --fh:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-weight:400;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.container{max-width:1160px;margin:0 auto;padding:0 clamp(1.5rem,5vw,5rem)}
+.skip{position:absolute;top:-40px;left:1rem;background:var(--acc);color:#fff;padding:8px 16px;border-radius:4px;font-size:13px;z-index:9999;transition:top .2s}
+.skip:focus{top:1rem}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;display:flex;align-items:center;padding:0 clamp(1.5rem,5vw,5rem);background:transparent;transition:background .4s}
+#nav.scrolled{background:rgba(7,11,20,.88);backdrop-filter:blur(20px) saturate(80%)}
+.nav-inner{width:100%;max-width:1520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--fh);font-size:22px;font-weight:400;color:#FDFDFF;letter-spacing:-.01em}
+.nav-logo svg.logo-mark{width:36px;height:28px}
+.nav-pill{background:#0F131D;backdrop-filter:blur(16px) saturate(140%);border-radius:6px;border:.5px solid rgba(255,255,255,.08);padding:0 2rem;height:44px;display:flex;align-items:center;gap:2.5rem;list-style:none}
+.nav-pill a{font-family:var(--fb);font-size:13px;font-weight:500;color:var(--t5);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-pill a:hover{color:var(--t-white)}
+.nav-cta{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--btn-text);background:var(--btn-light);border:none;border-radius:4px;padding:10px 22px;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;transition:color .25s,transform .15s,box-shadow .25s}
+.nav-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(82,101,176,0),rgba(82,101,176,0));transition:background .4s;z-index:-1}
+.nav-cta::after{content:'';position:absolute;top:50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.35);transform:translateY(-50%) skewX(-20deg);transition:left .45s var(--ease);z-index:1;pointer-events:none}
+.nav-cta:hover{color:#fff;transform:translateY(-1px);box-shadow:0 0 0 1px var(--acc),0 6px 20px rgba(82,101,176,.4)}
+.nav-cta:hover::before{background:linear-gradient(135deg,var(--acc),#3a4d9a)}
+.nav-cta:hover::after{left:120%}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-ham span{display:block;width:22px;height:1.5px;background:var(--t5);border-radius:2px}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:120px clamp(1.5rem,5vw,5rem) 0;max-width:1520px;margin:0 auto;position:relative;z-index:1}
+.hero-main{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4rem;flex:1}
+.hero-3d{position:relative;border-radius:16px;overflow:hidden;width:100%;aspect-ratio:580/480;max-height:480px;background:#070B14}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%}
+#scanner-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* Hero 3D */
+.hero-3d{position:relative;border-radius:16px;overflow:hidden;width:100%;max-width:580px;height:480px}
+#hero-canvas{width:100%;height:100%}
+#scanner-canvas{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;background:var(--badge-bg);border-radius:10px;padding:6px 14px;font-family:var(--fb);font-size:10px;font-weight:600;color:#C5C5D2;letter-spacing:1.5px;text-transform:uppercase;width:fit-content}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--badge-dot);box-shadow:0 0 8px rgba(183,196,255,.6);animation:dot-p 2.5s ease-in-out infinite;flex-shrink:0}
+@keyframes dot-p{0%,100%{box-shadow:0 0 5px rgba(183,196,255,.4)}50%{box-shadow:0 0 16px rgba(183,196,255,.9),0 0 30px rgba(183,196,255,.3)}}
+/* FIX 2: h1 accent inline, not block */
+h1.hero-h{font-family:var(--fh);font-size:clamp(3rem,5.5vw,4.8rem);font-weight:700;line-height:1.03;letter-spacing:-.04em;color:#EAECF8;margin:0}
+h1.hero-h .accent{color:#8192D8}
+.hero-sub{font-family:var(--fb);font-size:18px;font-weight:400;color:#B2B7C7;line-height:1.7;max-width:520px;margin:0}
+.hero-btns{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:8px}
+.btn-primary{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--btn-text);background:var(--btn-light);border:none;border-radius:4px;padding:14px 28px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;transition:color .25s,transform .15s,box-shadow .25s;isolation:isolate}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(82,101,176,0),rgba(82,101,176,0));transition:background .4s;z-index:-1}
+.btn-primary::after{content:'';position:absolute;top:50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.35);transform:translateY(-50%) skewX(-20deg);transition:left .45s var(--ease);z-index:1;pointer-events:none}
+.btn-primary:hover{color:#fff;transform:translateY(-2px);box-shadow:0 0 0 1px var(--acc),0 8px 32px rgba(82,101,176,.45)}
+.btn-primary:hover::before{background:linear-gradient(135deg,var(--acc),#3a4d9a)}
+.btn-primary:hover::after{left:120%}
+.btn-ghost{font-family:var(--fh);font-size:13px;font-weight:500;color:var(--t-e3);background:transparent;border:.5px solid rgba(255,255,255,.22);border-radius:4px;padding:14px 28px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;letter-spacing:.06em;text-transform:uppercase;transition:border-color .2s,background .2s,color .2s;white-space:nowrap}
+.btn-ghost:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.04);color:#fff}
+
+
+
+/* TICKER */
+#ticker{border-top:.5px solid var(--bdr);padding: 2.5rem 0;overflow:hidden;position:relative;z-index:1;margin-top:3rem}
+#ticker::before,#ticker::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+#ticker::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+#ticker::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.ticker-track{display:flex;align-items:center;width:max-content;animation:ticker-scroll 40s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;justify-content:center;padding:0 3.5rem;flex-shrink:0}
+.ticker-logo{height:24px;width:auto;opacity:.38;filter:brightness(0) invert(1);transition:opacity .3s}
+.ticker-item:hover .ticker-logo{opacity:.75}
+
+/* METRICS */
+#metrics{padding:7rem 0;position:relative;z-index:1;background:var(--bg)}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border:.5px solid var(--bdr);border-radius:12px;overflow:hidden}
+.m-item{background:var(--bg);padding:3rem 2.5rem;position:relative;overflow:hidden;transition:background .3s}
+.m-item:hover{background:var(--bg-alt)}
+.m-item::after{content:'';position:absolute;inset:0;background:var(--acc-2);opacity:0;transition:opacity .3s;pointer-events:none}
+.m-item:hover::after{opacity:1}
+.m-num{display:block;font-family:var(--fh);font-size:54px;font-weight:700;color:#EAECF8;line-height:1;margin-bottom:.625rem;letter-spacing:-.03em}
+.m-lbl{font-size:14px;color:#fff;line-height:1.5}
+.m-lbl-sm{font-size:13px;color:#8F909C;line-height:1.5}
+
+/* SECTION HEADER */
+.sec-tag{font-family:var(--fb);font-size:11px;font-weight:600;color:var(--t5);display:block;margin-bottom:1rem;letter-spacing:.1em;text-transform:uppercase}
+h2.sec-h{font-family:var(--fh);font-size:clamp(2rem,3.5vw,44px);font-weight:700;color:#EAECF8;letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem}
+.sec-intro{font-family:var(--fb);font-size:clamp(.95rem,1.5vw,17px);color:#B2B7C7;line-height:1.75;max-width:570px}
+
+/* FIX 4: SERVICES — vertical cards in 2x2 grid, body below title, 16px, feature lists */
+#services{background:var(--bg-alt);padding:7rem 0;position:relative;z-index:1}
+.svc-head{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:4rem}
+.svc-list{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.svc-card{background:var(--bg);border-radius:12px;padding:0;position:relative;overflow:hidden;transition:transform .3s var(--ease);isolation:isolate;--border-angle:0deg}
+.svc-card::before{content:'';position:absolute;inset:0;border-radius:12px;padding:1px;background:conic-gradient(from var(--border-angle),rgba(255,255,255,.02) 0%,rgba(255,255,255,.02) 40%,rgba(129,146,216,.6) 50%,rgba(255,255,255,.02) 60%,rgba(255,255,255,.02) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;opacity:0;transition:opacity .4s;animation:border-rotate 4s linear infinite paused}
+.svc-card:hover::before{opacity:1;animation-play-state:running}
+@property --border-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes border-rotate{to{--border-angle:360deg}}
+.svc-card::after{content:'';position:absolute;inset:0;border: radius 8px;border:.5px solid rgba(255,255,255,.07);pointer-events:none}
+.svc-card:hover{transform:translateY(-2px)}
+/* Vertical layout: illustration TOP, content BOTTOM */
+.svc-inner{display:flex;flex-direction:column;height:100%}
+.svc-illus{position:relative;overflow:hidden;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(14,14,24,.9) 0%,rgba(20,20,38,.7) 100%);border-bottom:.5px solid rgba(255,255,255,.06);height:150px;flex-shrink:0}
+.svc-illus::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(82,101,176,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(82,101,176,.08) 1px,transparent 1px);background-size:28px 28px}
+.svc-illus svg{position:relative;z-index:1}
+.svc-content{padding:1.75rem 2rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
+.svc-num{font-family:var(--fb);font-size:10px;font-weight:600;color:#6B7190;letter-spacing:.12em;text-transform:uppercase}
+.svc-title{font-family:var(--fb);font-size:19px;font-weight:700;color:#EAECF8;line-height:1.25}
+.svc-desc{font-family:var(--fb);font-size:16px;color:#B2B7C7;line-height:1.65}
+.svc-feats{list-style:none;display:flex;flex-direction:column;gap:.35rem;margin-top:.125rem}
+.svc-feats li{font-size:13px;color:#6B7190;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.svc-feats li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--acc);flex-shrink:0;margin-top:7px}
+.svc-link{font-family:var(--fb);font-size:13px;font-weight:600;color:#8192D8;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap .2s;margin-top:auto;padding-top:.5rem}
+.svc-link:hover{gap:9px}
+
+/* FIX 5: PROCESS — line exactly through dot centers */
+#process{padding:7rem 0;position:relative;z-index:1;background:var(--bg)}
+.proc-container{position:relative;margin-top:4rem}
+/* left:27px = center of 56px dot. top/bottom:28px = half of dot height, so line starts/ends at dot center */
+.proc-line{position:absolute;left:27px;top:28px;bottom:28px;width:2px;background:rgba(255,255,255,.07);border-radius:1px;z-index:0}
+.proc-step{position:relative;z-index:3}.proc-dot{position:relative;z-index:3}
+.proc-line-fill{position:absolute;left:27px;top:28px;width:2px;background:linear-gradient(to bottom,var(--acc),#191c2a);border-radius:1px;z-index:0;height:0px;transition:height .08s linear;box-shadow:0 0 8px rgba(82,101,176,.5)}
+.proc-steps{display:flex;flex-direction:column;gap:0}
+.proc-step{display:grid;grid-template-columns:56px 1fr;gap:2.5rem;padding:2rem 0;position:relative;opacity:.35;transition:opacity .5s var(--ease);z-index:3}
+.proc-step.active{opacity:1}
+.proc-step.done{opacity:.75}
+.proc-dot-wrap{display:flex;justify-content:center;z-index:3}
+.proc-dot{width:56px;height:56px;border-radius:50%;background:var(--bg);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t4);transition:border-color .5s,color .5s,background .5s,box-shadow .5s;flex-shrink:0;position:relative;z-index:3}
+.proc-step.active .proc-dot{border-color:var(--acc);border-width:2px;color:#EAECF8;background:rgba(82,101,176,.8);box-shadow:0 0 0 4px rgba(82,101,176,.2),0 0 20px rgba(82,101,176,.35)}
+.proc-step.done .proc-dot{border-color:var(--acc);border-width:2px;color:#EAECF8;background:rgba(82,101,176,.8);box-shadow:0 0 0 4px rgba(82,101,176,.2),0 0 20px rgba(82,101,176,.35)}
+.step-time{font-family:var(--fb);font-size:11px;font-weight:500;color:var(--t6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem}
+.step-title{font-family:var(--fb);font-size:22px;font-weight:700;color:#E3E1EC;margin-bottom:.75rem;letter-spacing:-.01em;line-height:1.2}
+.step-desc{font-family:var(--fb);font-size:15px;color:#B2B7C7;line-height:1.75;max-width:600px}
+.proc-body{padding-top:.75rem}
+
+/* ABOUT */
+#about{background:var(--bg-alt);padding:7rem 0;position:relative;z-index:1}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-h{font-family:var(--fh);font-size:clamp(2rem,3.5vw,44px);font-weight:700;color:#EAECF8;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.5rem}
+.about-body{font-family:var(--fb);font-size:14px;color:#B2B7C7;line-height:1.85;margin-bottom:1.25rem}
+.about-body strong{color:#EAECF8;font-weight:600}
+.about-db{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;border-top:.5px solid var(--bdr);padding-top:2rem;margin-top:2rem}
+.about-db-badge{display:flex;align-items:center;gap:14px}
+.db-logo-wrap{width:44px;height:44px;background:var(--acc-2);border:.5px solid var(--acc-3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.about-db-name{font-family:var(--fh);font-size:18px;font-weight:700;color:#F7F9FF;display:block;letter-spacing:-.01em}
+.about-db-sub{font-size:11px;color:#6B7190;margin-top:2px}
+.about-db-caps{display:flex;gap:1.25rem;flex-wrap:wrap}
+.about-db-cap{font-size:12px;color:#6B7190;display:flex;align-items:center;gap:6px}
+.about-db-cap::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--acc);flex-shrink:0}
+.ind-lbl{font-family:var(--fb);font-size:11px;font-weight:600;color:var(--t5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:.875rem}
+.ind-card{background:var(--card);border:.5px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;transition:border-color .25s,transform .25s var(--ease);cursor:default}
+.ind-card:hover{border-color:rgba(129,146,216,.4);transform:translateY(-2px)}
+.ind-visual{height:80px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ind-visual::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(82,101,176,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(82,101,176,.06) 1px,transparent 1px);background-size:20px 20px}
+.ind-visual svg{position:relative;z-index:1}
+.ind-copy{padding:1rem 1.25rem 1.25rem}
+.ind-title{font-family:var(--fb);font-size:15px;font-weight:700;color:#E7E9FF;margin-bottom:.35rem}
+.ind-desc{font-size:12px;color:#9B9FB0;line-height:1.55}
+
+/* FIX 6: CAPABILITIES — same shiny rotating border as service cards */
+#capabilities{padding:7rem 0;position:relative;z-index:1;background:var(--bg)}
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.cap-card{
+  background:var(--card);border-radius:8px;padding:2rem;
+  display:flex;gap:1.25rem;align-items:flex-start;
+  position:relative;overflow:hidden;
+  transition:transform .3s var(--ease);isolation:isolate;
+  --cap-angle:0deg;
+}
+.cap-card::before{content:'';position:absolute;inset:0;border-radius:8px;padding:1px;background:conic-gradient(from var(--cap-angle),rgba(255,255,255,.02) 0%,rgba(255,255,255,.02) 40%,rgba(129,146,216,.6) 50%,rgba(255,255,255,.02) 60%,rgba(255,255,255,.02) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;opacity:0;transition:opacity .4s;animation:cap-rotate 4s linear infinite paused}
+.cap-card:hover::before{opacity:1;animation-play-state:running}
+@property --cap-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes cap-rotate{to{--cap-angle:360deg}}
+.cap-card::after{content:'';position:absolute;inset:0;border-radius:8px;border:.5px solid rgba(255,255,255,.07);pointer-events:none}
+.cap-card:hover{transform:translateY(-2px)}
+.cap-icon{width:40px;height:40px;border-radius:8px;background:var(--acc-2);border:.5px solid var(--acc-3);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.cap-title{font-family:var(--fb);font-size:18px;font-weight:700;color:#E3E1EC;margin-bottom:.625rem;position:relative;z-index:1}
+.cap-desc{font-size:14px;color:#C5C5D2;line-height:1.7;position:relative;z-index:1}
+.cap-card>div{position:relative;z-index:1}
+
+/* CTA */
+#cta{padding:7rem 0;position:relative;z-index:1;background:var(--bg-alt)}
+.cta-card{background:#070B14;border-radius:12px;padding:clamp(3.5rem,6vw,5rem);text-align:center;position:relative;overflow:hidden;isolation:isolate;--cta-angle:0deg}
+.cta-card::before{content:'';position:absolute;inset:0;border-radius:12px;padding:1px;background:conic-gradient(from var(--cta-angle),rgba(82,101,176,0) 0%,rgba(82,101,176,0) 30%,rgba(129,146,216,.9) 45%,rgba(200,212,248,.7) 50%,rgba(129,146,216,.9) 55%,rgba(82,101,176,0) 70%,rgba(82,101,176,0) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;animation:cta-spin 4s linear infinite;pointer-events:none}
+@property --cta-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes cta-spin{to{--cta-angle:360deg}}
+.cta-card::after{content:'';position:absolute;inset:0;border-radius:12px;border:.5px solid rgba(82,101,176,.2);pointer-events:none}
+.cta-tag{font-family:var(--fb);font-size:11px;font-weight:600;color:var(--t5);display:block;margin-bottom:1.25rem;letter-spacing:.1em;text-transform:uppercase}
+.cta-h{font-family:var(--fh);font-size:clamp(2.5rem,5.5vw,4.5rem);font-weight:700;color:#EAECF8;letter-spacing:-.04em;line-height:1.05;margin-bottom:1.5rem}
+.cta-sub{font-size:14px;color:#B2B7C7;line-height:1.75;margin-bottom:2.5rem;max-width:600px;margin-left:auto;margin-right:auto}
+.cta-note{font-size:12px;color:#6B7190;margin-top:1.5rem}
+
+/* FOOTER */
+footer{border-top:.5px solid var(--bdr);padding:4rem 0 2.5rem;position:relative;z-index:1;background:var(--bg)}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.foot-logo{display:flex;align-items:center;gap:10px;font-family:var(--fh);font-size:18px;font-weight:400;color:#fff;text-decoration:none;margin-bottom:.875rem}
+.foot-logo svg{width:28px;height:22px}
+.foot-tag{font-size:13px;color:var(--t4);line-height:1.7;max-width:280px;margin-bottom:1rem}
+.foot-contact{font-size:13px;color:var(--t4)}
+.foot-contact a{color:var(--t4);text-decoration:none;transition:color .2s}
+.foot-contact a:hover{color:var(--t-white)}
+.foot-col h4{font-size:11px;font-weight:600;color:var(--t5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.foot-col ul li a{font-size:13px;color:var(--t4);text-decoration:none;transition:color .2s}
+.foot-col ul li a:hover{color:var(--t-white)}
+.foot-bottom{padding-top:2rem;border-top:.5px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-bottom p{font-size:12px;color:var(--t4)}
+.foot-links{display:flex;gap:1.5rem}
+.foot-links a{font-size:12px;color:var(--t4);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--t-white)}
+
+/* REVEAL */
+[data-r]{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+[data-r].in{opacity:1;transform:translateY(0)}
+[data-r][data-d="1"]{transition-delay:.1s}[data-r][data-d="2"]{transition-delay:.2s}
+[data-r][data-d="3"]{transition-delay:.3s}[data-r][data-d="4"]{transition-delay:.4s}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero-main{grid-template-columns:1fr;padding-top:0}
+  .hero-3d{display:none}
+  .svc-head{grid-template-columns:1fr}
+  .svc-list{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .about-db{flex-direction:column;align-items:flex-start}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:2rem}
+}
+@media(max-width:768px){
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .cap-grid{grid-template-columns:1fr}
+  .ind-grid{grid-template-columns:1fr}
+  .nav-pill,.nav-cta{display:none}
+  .nav-ham{display:flex}
+}
+@media(max-width:480px){.foot-grid{grid-template-columns:1fr}}
+
+
+/* Badge slides down + fades in */
+@keyframes badge-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+/* H1 words slide up staggered */
+@keyframes word-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* Sub + buttons fade up */
+@keyframes fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* Hero 3D panel slides in from right */
+@keyframes panel-in{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+
+/* Override data-r for hero elements — use entrance animations instead */
+.hero-badge[data-r]{
+  opacity:0;
+  animation:badge-in .6s cubic-bezier(.22,1,.36,1) .2s forwards;
+  transform:none!important;
+  transition:none!important;
+}
+.hero-badge[data-r].in{opacity:0}/* prevent reveal observer from overriding */
+
+.hero-h-word{
+  display:inline-block;
+  opacity:0;
+  animation:word-in .65s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-h-word:nth-child(1){animation-delay:.35s}
+.hero-h-word:nth-child(2){animation-delay:.45s}
+.hero-h-word:nth-child(3){animation-delay:.55s}
+.hero-h-word:nth-child(4){animation-delay:.65s}
+.hero-h-word:nth-child(5){animation-delay:.73s}
+
+.hero-sub[data-r]{
+  opacity:0;
+  animation:fade-up .7s cubic-bezier(.22,1,.36,1) .85s forwards;
+  transform:none!important;transition:none!important;
+}
+.hero-sub[data-r].in{opacity:0}
+
+.hero-btns[data-r]{
+  opacity:0;
+  animation:fade-up .7s cubic-bezier(.22,1,.36,1) 1s forwards;
+  transform:none!important;transition:none!important;
+}
+.hero-btns[data-r].in{opacity:0}
+
+.hero-3d{
+  opacity:0;
+  animation:panel-in .9s cubic-bezier(.22,1,.36,1) .5s forwards;
+}
+/* Ticker fades in last */
+#ticker[data-r]{
+  opacity:0;
+  animation:fade-up .8s cubic-bezier(.22,1,.36,1) 1.2s forwards;
+  transform:none!important;transition:none!important;
+}
+#ticker[data-r].in{opacity:0}
+</style>
+</head>
+<body>
+
+
+<a href="#main" class="skip">Skip to main content</a>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<header>
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg class="logo-mark" viewBox="0 0 83 64" fill="none">
+        <path d="M26.4565 15.476L39.6242 6.69753C42.5822 4.72556 45.1902 3.88078 47.4485 4.16319C49.7067 4.40303 51.456 5.79094 52.6965 8.32692C53.9687 10.7991 54.6048 14.3552 54.6048 18.9952C54.6048 23.7204 53.9687 28.1885 52.6965 32.3996C51.4242 36.6107 49.6431 40.3522 47.3531 43.6242C45.0948 46.8751 42.4867 49.4864 39.5288 51.4584L26.4565 60.1732V15.476Z" fill="#515560" fill-opacity="0.72"/>
+        <path d="M33.1154 20.8595L45.512 12.5951C48.2968 10.7386 50.7522 9.91339 52.8782 10.1195C55.0042 10.2869 56.6511 11.5081 57.8189 13.7831C59.0166 15.9995 59.6155 19.2143 59.6155 23.4274C59.6155 27.7178 59.0166 31.789 57.8189 35.641C56.6211 39.4931 54.9443 42.9301 52.7883 45.9522C50.6623 48.9542 48.207 51.3835 45.4222 53.24L33.1154 61.4446V20.8595Z" fill="#A2A5B4"/>
+        <path d="M63.5178 28.9156C63.2002 43.2072 44.6776 53.4697 44.6776 53.4697L45.1814 30.7983C45.1814 30.7983 63.8354 14.6241 63.5178 28.9156Z" fill="#EAECF8"/>
+      </svg>
+      Data Hatch
+    </a>
+    <ul class="nav-pill" role="list">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#capabilities">TECHNOLOGIES</a></li>
+      <li><a href="#case-studies">CASE STUDIES</a></li>
+    </ul>
+    <a href="#cta" class="nav-cta">Book an intro call</a>
+    <button class="nav-ham" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+</header>
+
+<main id="main">
+
+<section id="hero-section" aria-label="Hero">
+<div id="hero">
+  <div class="hero-main">
+    <div style="display:flex;flex-direction:column;gap:1.75rem">
+      <!-- FIX 3: Databricks icon in badge -->
+      <div class="hero-badge" data-r>
+        <div class="hero-badge-dot" aria-hidden="true"></div>
+        <svg width="13" height="14" viewBox="0 0 19 20" fill="none" style="flex-shrink:0;opacity:.75" aria-hidden="true">
+          <path d="M0.5 14.5L9.5 19.5L18.5 14.5V11.5L9.5 16.5L0.5 11.5V8.5L9.5 13.5L18.5 8.5V5.5L9.5 10.5L0.5 5.5L9.5 0.5L14.92 3.51" stroke="#B7C4FF" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Databricks Certified Partner · London
+      </div>
+      <h1 class="hero-h" data-r data-d="1">
+        <span class="hero-h-word">AI</span> <span class="hero-h-word">systems</span> <span class="hero-h-word">for</span> <span class="hero-h-word">companies</span> <span class="hero-h-word">with</span> <span class="accent hero-h-word">real problems.</span>
+      </h1>
+      <p class="hero-sub" data-r data-d="2">
+        We combine the agility of a boutique consultancy with the expertise of an enterprise partner to deliver AI-driven automation, data engineering, and intelligent analytics.
+      <div class="hero-btns" data-r data-d="3">
+        <a href="#cta" class="btn-primary">Book an intro call</a>
+        <a href="#services" class="btn-ghost">SEE OUR RESULTS</a>
+      </div>
+    </div>
+    <!-- Hero animation -->
+    <div class="hero-3d" aria-hidden="true">
+      <canvas id="hero-canvas"></canvas>
+      <canvas id="scanner-canvas"></canvas>
+    </div>
+
+  </div>
+
+  <section id="ticker" aria-label="Trusted by" data-r>
+    <div class="ticker-track" aria-hidden="true">
+<div class="ticker-item">
+  <img src="images/esa.png" alt="ESA" class="ticker-logo">
+</div>
+
+<div class="ticker-item">
+  <img src="images/europolice.png" alt="Europolice" class="ticker-logo">
+</div>
+
+<div class="ticker-item">
+  <img src="images/ag.png" alt="A&G" class="ticker-logo">
+
+<div class="ticker-item">
+  <img src="images/databricks.png" alt="Databricks" class="ticker-logo">
+  <div class="ticker-item">
+  <img src="images/esa.png" alt="ESA" class="ticker-logo">
+</div>
+
+<div class="ticker-item">
+  <img src="images/europolice.png" alt="Europolice" class="ticker-logo">
+</div>
+
+<div class="ticker-item">
+  <img src="images/ag.png" alt="A&G" class="ticker-logo">
+
+<div class="ticker-item">
+  <img src="images/databricks.png" alt="Databricks" class="ticker-logo">
+</div>
+    </div>
+  </section>
+</div>
+</section>
+
+<section id="metrics" aria-label="Key metrics">
+<div class="container">
+  <div class="metrics-grid">
+    <div class="m-item" data-r><span class="m-num">€10M+</span><div class="m-lbl">Value delivered to clients</div></div>
+    <div class="m-item" data-r data-d="1"><span class="m-num">6 wks</span><div class="m-lbl-sm">Avg. Prototype Delivery</div></div>
+    <div class="m-item" data-r data-d="2"><span class="m-num">100%</span><div class="m-lbl-sm">Production Success Rate</div></div>
+    <div class="m-item" data-r data-d="3"><span class="m-num">24/7</span><div class="m-lbl-sm">System Monitoring</div></div>
+  </div>
+</div>
+</section>
+
+<!-- FIX 4+5: Services — vertical 2x2, 16px body below title, feature lists -->
+<section id="services" aria-labelledby="svch">
+<div class="container">
+  <div class="svc-head">
+    <div>
+      <span class="sec-tag" data-r>/ OUR SERVICES</span>
+      <h2 class="sec-h" id="svch" data-r data-d="1">Packaged AI solutions,<br>ready to deploy</h2>
+      <p class="sec-intro" data-r data-d="2">Four distinct products and services. Each one is a defined system we design, build, and deploy — not a category of things we might do.</p>
+    </div>
+  </div>
+  <div class="svc-list">
+
+    <div class="svc-card" data-r>
+      <div class="svc-inner">
+        <div class="svc-illus">
+          <svg width="200" height="130" viewBox="0 0 200 130" fill="none">
+            <line x1="20" y1="20" x2="180" y2="20" stroke="rgba(82,101,176,.2)" stroke-width=".5"/>
+            <line x1="20" y1="65" x2="180" y2="65" stroke="rgba(82,101,176,.2)" stroke-width=".5"/>
+            <line x1="20" y1="110" x2="180" y2="110" stroke="rgba(82,101,176,.2)" stroke-width=".5"/>
+            <rect x="24" y="91" width="20" height="19" rx="3" fill="rgba(82,101,176,.2)" stroke="rgba(82,101,176,.3)" stroke-width=".5"/>
+            <rect x="52" y="72" width="20" height="38" rx="3" fill="rgba(82,101,176,.32)" stroke="rgba(82,101,176,.4)" stroke-width=".5"/>
+            <rect x="80" y="52" width="20" height="58" rx="3" fill="rgba(82,101,176,.5)" stroke="rgba(82,101,176,.55)" stroke-width=".5"/>
+            <rect x="108" y="32" width="20" height="78" rx="3" fill="rgba(129,146,216,.55)" stroke="rgba(129,146,216,.7)" stroke-width=".5"/>
+            <rect x="136" y="14" width="20" height="96" rx="3" fill="rgba(129,146,216,.78)" stroke="rgba(129,146,216,.9)" stroke-width=".5"/>
+            <path d="M34 100 L62 82 L90 62 L118 42 L146 22" stroke="#8192D8" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="146" cy="22" r="3.5" fill="#8192D8"/>
+            <circle cx="146" cy="22" r="7" fill="rgba(129,146,216,.18)"/>
+          </svg>
+        </div>
+        <div class="svc-content">
+          <span class="svc-num">P-001 // REVENUE ENGINE</span>
+          <div class="svc-title">Aura Leads — AI Outbound Revenue System</div>
+          <p class="svc-desc">Transform your prospecting from manual outreach into a data-driven, fully managed outbound machine.</p>
+          <ul class="svc-feats">
+            <li>ICP definition with technographic, hiring, and intent signals</li>
+            <li>Automated enrichment via Clay, Apollo, and waterfall data sources</li>
+            <li>Full email infrastructure: SPF, DKIM, DMARC — built for deliverability</li>
+            <li>Multi-channel sequences: cold email + LinkedIn cadences</li>
+            <li>Weekly reporting on every metric that matters</li>
+          </ul>
+          <a href="#cta" class="svc-link">Request a Pipeline Audit →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card" data-r data-d="1">
+      <div class="svc-inner">
+        <div class="svc-illus">
+          <svg width="200" height="130" viewBox="0 0 200 130" fill="none">
+            <circle cx="60" cy="58" r="22" fill="rgba(82,101,176,.1)" stroke="rgba(82,101,176,.3)" stroke-width="1"/>
+            <circle cx="60" cy="46" r="10" fill="rgba(82,101,176,.2)" stroke="rgba(82,101,176,.4)" stroke-width=".8"/>
+            <path d="M38 78 Q60 66 82 78" fill="rgba(82,101,176,.15)" stroke="rgba(82,101,176,.3)" stroke-width=".8"/>
+            <defs><marker id="arr2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L7 4L1 7" fill="none" stroke="#5265B0" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+            <path d="M86 58 L110 58" stroke="#5265B0" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arr2)"/>
+            <circle cx="140" cy="58" r="28" fill="rgba(129,146,216,.07)" stroke="rgba(129,146,216,.3)" stroke-width="1"/>
+            <circle cx="140" cy="58" r="17" fill="rgba(82,101,176,.15)" stroke="rgba(82,101,176,.4)" stroke-width=".8"/>
+            <text x="140" y="62" text-anchor="middle" fill="#8192D8" font-size="11" font-weight="700" font-family="Inter">AI</text>
+            <line x1="140" y1="22" x2="140" y2="28" stroke="#8192D8" stroke-width="1" opacity=".6"/>
+            <line x1="164" y1="34" x2="160" y2="38" stroke="#8192D8" stroke-width="1" opacity=".6"/>
+            <line x1="172" y1="58" x2="166" y2="58" stroke="#8192D8" stroke-width="1" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="svc-content">
+          <span class="svc-num">P-002 // WORKFORCE UPGRADE</span>
+          <div class="svc-title">AI Training — Hands-on Workforce Enablement</div>
+          <p class="svc-desc">Most corporate training teaches tools. We teach outcomes. Workflow-centric, not tool-centric.</p>
+          <ul class="svc-feats">
+            <li>AI Essentials (1 day) — £5–10k per cohort</li>
+            <li>AI Power User (2 days) — £10–20k per cohort</li>
+            <li>AI Champions programme — £2–5k/month retainer</li>
+            <li>Modules: Foundations, Writing, Data, Presentations, Agentic AI</li>
+            <li>Each participant leaves with a personal AI stack for their role</li>
+          </ul>
+          <a href="#cta" class="svc-link">View Course Modules →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card" data-r data-d="2">
+      <div class="svc-inner">
+        <div class="svc-illus">
+          <svg width="200" height="130" viewBox="0 0 200 130" fill="none">
+            <rect x="14" y="14" width="110" height="28" rx="14" fill="rgba(40,42,60,.9)" stroke="rgba(82,101,176,.3)" stroke-width=".8"/>
+            <text x="24" y="32" fill="#B2B7C7" font-size="10" font-family="Inter">How do I track my order?</text>
+            <circle cx="100" cy="72" r="10" fill="rgba(82,101,176,.15)" stroke="rgba(82,101,176,.4)" stroke-width=".8"/>
+            <text x="100" y="76" text-anchor="middle" fill="#8192D8" font-size="8" font-weight="700" font-family="Inter">AI</text>
+            <rect x="76" y="96" width="110" height="28" rx="14" fill="rgba(82,101,176,.2)" stroke="rgba(82,101,176,.45)" stroke-width=".8"/>
+            <text x="86" y="114" fill="#EAECF8" font-size="10" font-family="Inter">Order #482 ships today ✓</text>
+            <line x1="70" y1="42" x2="100" y2="62" stroke="rgba(82,101,176,.3)" stroke-width=".8" stroke-dasharray="3 2"/>
+            <line x1="100" y1="82" x2="100" y2="96" stroke="rgba(82,101,176,.3)" stroke-width=".8" stroke-dasharray="3 2"/>
+          </svg>
+        </div>
+        <div class="svc-content">
+          <span class="svc-num">P-003 // AUTOMATION SYSTEM</span>
+          <div class="svc-title">Autonomous Support Agent</div>
+          <p class="svc-desc">Move beyond scripted chatbots. Our agent reasons through problems, queries your internal data, and executes real-world actions.</p>
+          <ul class="svc-feats">
+            <li>RAG pipeline on top of LLM connected to your data sources</li>
+            <li>Connects to Zendesk, Intercom, Freshdesk, Salesforce, or any CRM</li>
+            <li>Action layer: issues refunds, updates accounts, reschedules appointments</li>
+            <li>Outcome-based pricing: $0.50–$2.00 per resolved ticket</li>
+            <li>Working prototype shipped in 6–10 weeks</li>
+          </ul>
+          <a href="#cta" class="svc-link">Calculate ROI →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card" data-r data-d="3">
+      <div class="svc-inner">
+        <div class="svc-illus">
+          <svg width="200" height="130" viewBox="0 0 200 130" fill="none">
+            <rect x="14" y="12" width="172" height="24" rx="6" fill="rgba(18,18,28,.8)" stroke="rgba(82,101,176,.3)" stroke-width=".8"/>
+            <circle cx="28" cy="24" r="5" fill="none" stroke="#5265B0" stroke-width="1.2"/>
+            <line x1="32" y1="28" x2="37" y2="33" stroke="#5265B0" stroke-width="1.2" stroke-linecap="round"/>
+            <text x="46" y="28" fill="#6B7190" font-size="9" font-family="Inter">What is our refund policy?</text>
+            <rect x="14" y="44" width="172" height="12" rx="3" fill="rgba(82,101,176,.12)" stroke="rgba(82,101,176,.2)" stroke-width=".5"/>
+            <rect x="16" y="46" width="80" height="8" rx="2" fill="rgba(82,101,176,.38)"/>
+            <text x="102" y="54" fill="#6B7190" font-size="7" font-family="Inter">policy.notion.so</text>
+            <rect x="14" y="62" width="172" height="8" rx="2" fill="rgba(255,255,255,.03)"/>
+            <rect x="14" y="76" width="130" height="6" rx="2" fill="rgba(255,255,255,.02)"/>
+            <text x="22" y="100" fill="#6B7190" font-size="8" font-family="Inter">Slack</text>
+            <text x="60" y="100" fill="#6B7190" font-size="8" font-family="Inter">Notion</text>
+            <text x="100" y="100" fill="#6B7190" font-size="8" font-family="Inter">GDrive</text>
+            <text x="144" y="100" fill="#6B7190" font-size="8" font-family="Inter">Jira</text>
+            <line x1="26" y1="90" x2="26" y2="100" stroke="rgba(82,101,176,.35)" stroke-width=".8" stroke-dasharray="2 2"/>
+            <line x1="68" y1="90" x2="68" y2="100" stroke="rgba(82,101,176,.35)" stroke-width=".8" stroke-dasharray="2 2"/>
+            <line x1="108" y1="90" x2="108" y2="100" stroke="rgba(82,101,176,.35)" stroke-width=".8" stroke-dasharray="2 2"/>
+            <line x1="152" y1="90" x2="152" y2="100" stroke="rgba(82,101,176,.35)" stroke-width=".8" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <div class="svc-content">
+          <span class="svc-num">P-004 // INTELLIGENCE</span>
+          <div class="svc-title">SMB Knowledge Search</div>
+          <p class="svc-desc">A single place for employees to get accurate, sourced answers from everything the company knows.</p>
+          <ul class="svc-feats">
+            <li>Multi-source RAG with permission-aware retrieval</li>
+            <li>Pre-built connectors: Slack, Notion, GDrive, Confluence, Jira, GitHub</li>
+            <li>Answers with citations back to source documents</li>
+            <li>Slack / Teams bot — ask where work happens</li>
+            <li>$15–$30/user/month · free tier for teams under 10</li>
+          </ul>
+          <a href="#cta" class="svc-link">Integrate Your Stack →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- FIX 5: Process with line through dot centers -->
+<section id="process" aria-labelledby="proch">
+<div class="container">
+  <span class="sec-tag" data-r>/ OUR PROCESS</span>
+  <h2 class="sec-h" id="proch" data-r data-d="1">From first call<br>to live in production.</h2>
+  <p class="sec-intro" data-r data-d="2">A lean 4-step process engineered for speed — without cutting corners on quality or security.</p>
+  <div class="proc-container">
+    <div class="proc-line"></div>
+    <div class="proc-line-fill" id="proc-fill"></div>
+    <div class="proc-steps">
+      <div class="proc-step" data-step="0">
+        <div class="proc-dot-wrap"><div class="proc-dot">01</div></div>
+        <div class="proc-body">
+          <div class="step-time">// DAY 1</div>
+          <div class="step-title">AI Strategy & Audit</div>
+          <p class="step-desc">A deep diagnostic of your data architecture. We identify the highest-ROI AI opportunities and map the technical route to production. No jargon, no commitment, no slides.</p>
+        </div>
+      </div>
+      <div class="proc-step" data-step="1">
+        <div class="proc-dot-wrap"><div class="proc-dot">02</div></div>
+        <div class="proc-body">
+          <div class="step-time">// DAY 3–5</div>
+          <div class="step-title">Proposal & Scope</div>
+          <p class="step-desc">Clear deliverables, realistic timeline, transparent pricing. You speak directly with the engineers who will do the work — not account managers. No surprises at invoice time.</p>
+        </div>
+      </div>
+      <div class="proc-step" data-step="2">
+        <div class="proc-dot-wrap"><div class="proc-dot">03</div></div>
+        <div class="proc-body">
+          <div class="step-time">// WEEKS 1–6</div>
+          <div class="step-title">Build & Iterate</div>
+          <p class="step-desc">Working MVP in 3 weeks. You review progress every week — not every quarter. Every decision is documented and every milestone is measurable.</p>
+        </div>
+      </div>
+      <div class="proc-step" data-step="3">
+        <div class="proc-dot-wrap"><div class="proc-dot">04</div></div>
+        <div class="proc-body">
+          <div class="step-time">// WEEK 6+</div>
+          <div class="step-title">Deploy & Monitor</div>
+          <p class="step-desc">Production deployment handled by us. 24/7 monitoring so your team stays focused. Full handover with documentation so you can own and extend it independently.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="about" aria-labelledby="abouth">
+<div class="container">
+  <div class="about-grid">
+    <div>
+      <span class="sec-tag" data-r>/ ABOUT DATAHATCH</span>
+      <h2 class="about-h" data-r data-d="1" id="abouth">Bridging the Gap Between Data and Value</h2>
+      <p class="about-body" data-r data-d="2">Data Hatch is a premier AI consultancy based in London, dedicated to helping businesses navigate artificial intelligence and data engineering.</p>
+      <p class="about-body" data-r data-d="3">Our team of expert engineers and data scientists brings years of experience from top-tier tech companies to deliver enterprise-grade solutions with the speed and agility of a startup.</p>
+      <p class="about-body" data-r data-d="4">As an <strong>Official Databricks Partner</strong>, we hold certifications across Data Engineering, Machine Learning, and Spark Architecture.</p>
+      <div class="about-db" data-r>
+        <div class="about-db-badge">
+          <div class="db-logo-wrap">
+            <svg width="20" height="21" viewBox="0 0 19 20" fill="none">
+              <path d="M0.500092 14.5L9.50009 19.5L18.5001 14.5V11.5L9.50009 16.5L0.500092 11.5V8.5L9.50009 13.5L18.5001 8.5V5.5L9.50009 10.5L0.500092 5.5L9.50009 0.5L14.9181 3.51" stroke="#8192D8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <span class="about-db-name">Official Databricks Partner</span>
+            <span class="about-db-sub">Certified Solutions Expert · Data Engineering · ML · Spark Architecture</span>
+          </div>
+        </div>
+        <div class="about-db-caps">
+          <div class="about-db-cap">Lakehouse</div>
+          <div class="about-db-cap">Delta Live Tables</div>
+          <div class="about-db-cap">Unity Catalog</div>
+          <div class="about-db-cap">MLflow</div>
+        </div>
+        <a href="/partners/databricks" class="btn-ghost" style="font-size:11px;padding:10px 16px">VIEW PARTNERSHIP</a>
+      </div>
+    </div>
+    <div>
+      <div class="ind-lbl" data-r>/ INDUSTRY EXPERTISE</div>
+      <div class="ind-grid">
+        <div class="ind-card" data-r data-d="1">
+          <div class="ind-visual" style="background:linear-gradient(135deg,rgba(14,14,24,.95),rgba(18,18,38,.8))">
+            <svg width="120" height="64" viewBox="0 0 120 64" fill="none">
+              <rect x="8" y="20" width="28" height="22" rx="3" fill="none" stroke="rgba(82,101,176,.5)" stroke-width="1"/>
+              <path d="M4 12 L8 20 L36 20" stroke="rgba(82,101,176,.4)" stroke-width="1" stroke-linecap="round"/>
+              <circle cx="14" cy="44" r="3" fill="rgba(82,101,176,.6)"/>
+              <circle cx="28" cy="44" r="3" fill="rgba(82,101,176,.6)"/>
+              <path d="M55 44 L68 34 L81 38 L94 24 L107 28" stroke="#8192D8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <circle cx="107" cy="28" r="2.5" fill="#8192D8"/>
+            </svg>
+          </div>
+          <div class="ind-copy"><div class="ind-title">E-commerce</div><p class="ind-desc">Predictive inventory and hyper-personalized customer journeys.</p></div>
+        </div>
+        <div class="ind-card" data-r data-d="2">
+          <div class="ind-visual" style="background:linear-gradient(135deg,rgba(14,14,24,.95),rgba(18,18,38,.8))">
+            <svg width="120" height="64" viewBox="0 0 120 64" fill="none">
+              <path d="M10 32 L20 32 L26 16 L34 48 L40 28 L46 36 L56 36" stroke="#8192D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <rect x="78" y="20" width="6" height="22" rx="2" fill="rgba(82,101,176,.5)"/>
+              <rect x="70" y="28" width="22" height="6" rx="2" fill="rgba(82,101,176,.5)"/>
+              <circle cx="81" cy="31" r="14" fill="none" stroke="rgba(82,101,176,.25)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="ind-copy"><div class="ind-title">Healthcare</div><p class="ind-desc">Diagnostic assistance and clinical workflow automation.</p></div>
+        </div>
+        <div class="ind-card" data-r data-d="3">
+          <div class="ind-visual" style="background:linear-gradient(135deg,rgba(14,14,24,.95),rgba(18,18,38,.8))">
+            <svg width="120" height="64" viewBox="0 0 120 64" fill="none">
+              <rect x="20" y="14" width="60" height="10" rx="4" fill="rgba(82,101,176,.2)" stroke="rgba(82,101,176,.4)" stroke-width=".8"/>
+              <rect x="24" y="28" width="52" height="10" rx="4" fill="rgba(82,101,176,.3)" stroke="rgba(82,101,176,.5)" stroke-width=".8"/>
+              <rect x="28" y="42" width="44" height="10" rx="4" fill="rgba(129,146,216,.45)" stroke="rgba(129,146,216,.6)" stroke-width=".8"/>
+              <circle cx="95" cy="19" r="5" fill="rgba(129,146,216,.5)" stroke="rgba(129,146,216,.7)" stroke-width=".8"/>
+              <circle cx="98" cy="33" r="4" fill="rgba(82,101,176,.4)" stroke="rgba(82,101,176,.6)" stroke-width=".8"/>
+              <circle cx="92" cy="47" r="3.5" fill="rgba(82,101,176,.6)" stroke="rgba(82,101,176,.8)" stroke-width=".8"/>
+            </svg>
+          </div>
+          <div class="ind-copy"><div class="ind-title">SaaS</div><p class="ind-desc">Embedded AI features and churn prediction modeling.</p></div>
+        </div>
+        <div class="ind-card" data-r data-d="4">
+          <div class="ind-visual" style="background:linear-gradient(135deg,rgba(14,14,24,.95),rgba(18,18,38,.8))">
+            <svg width="120" height="64" viewBox="0 0 120 64" fill="none">
+              <path d="M20 12 L20 36 C20 42 30 50 35 52 C40 50 50 42 50 36 L50 12 L35 8 Z" fill="rgba(82,101,176,.12)" stroke="rgba(82,101,176,.4)" stroke-width="1"/>
+              <path d="M28 30 L33 35 L44 24" stroke="#8192D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M65 44 L78 32 L88 36 L100 22 L110 26" stroke="rgba(129,146,216,.7)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="ind-copy"><div class="ind-title">Financial Services</div><p class="ind-desc">Fraud detection, algorithmic risk assessment, automated compliance.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FIX 6: Capabilities with same shiny border as service cards -->
+<section id="capabilities" aria-labelledby="caph">
+<div class="container">
+  <span class="sec-tag" data-r>/ OUR TECHNOLOGY</span>
+  <h2 class="sec-h" id="caph" data-r data-d="1">Core Capabilities</h2>
+  <p class="sec-intro" data-r data-d="2">Specialized engineering teams dedicated to the most critical pillars of modern intelligence.</p>
+  <div class="cap-grid">
+    <div class="cap-card" data-r>
+      <div class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5265B0" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+      <div><div class="cap-title">AI Consulting</div><p class="cap-desc">Strategic roadmapping to identify high-impact AI opportunities and technical feasibility studies.</p></div>
+    </div>
+    <div class="cap-card" data-r data-d="1">
+      <div class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5265B0" stroke-width="1.5" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div><div class="cap-title">Generative AI Development</div><p class="cap-desc">Building custom LLM applications, RAG systems, and autonomous agents tailored to your domain.</p></div>
+    </div>
+    <div class="cap-card" data-r data-d="2">
+      <div class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5265B0" stroke-width="1.5" width="20" height="20"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+      <div><div class="cap-title">Data Engineering Services</div><p class="cap-desc">Modern data stack architecture, ETL pipelines, and warehouse optimization for AI readiness.</p></div>
+    </div>
+    <div class="cap-card" data-r data-d="3">
+      <div class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5265B0" stroke-width="1.5" width="20" height="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div><div class="cap-title">MLOps</div><p class="cap-desc">Automating the ML lifecycle with CI/CD for models, monitoring, and scalable infrastructure.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="cta" aria-labelledby="ctah">
+<div class="container">
+  <div class="cta-card" data-r>
+    <span class="cta-tag">/ READY TO GET STARTED?</span>
+    <h2 class="cta-h" id="ctah">Let's Build the Future</h2>
+    <p class="cta-sub">Book an intro call and speak directly with the team that would work on your project. We'll ask the right questions, tell you honestly what we think, and only move forward if it makes sense for both sides.</p>
+    <a href="/cdn-cgi/l/email-protection#186b79747d6b587c796c7970796c7b70367971276b6d7a727d7b6c2551766c6a77385b797474384a7d696d7d6b6c" class="btn-primary" style="display:inline-flex">Book an intro call</a>
+    <p class="cta-note">London-based · Available globally · Typical response within 24 hours</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="container">
+  <div class="foot-grid">
+    <div>
+      <a href="/" class="foot-logo">
+        <svg viewBox="0 0 83 64" fill="none">
+          <path d="M26.4565 15.476L39.6242 6.69753C42.5822 4.72556 45.1902 3.88078 47.4485 4.16319C49.7067 4.40303 51.456 5.79094 52.6965 8.32692C53.9687 10.7991 54.6048 14.3552 54.6048 18.9952C54.6048 23.7204 53.9687 28.1885 52.6965 32.3996C51.4242 36.6107 49.6431 40.3522 47.3531 43.6242C45.0948 46.8751 42.4867 49.4864 39.5288 51.4584L26.4565 60.1732V15.476Z" fill="#515560" fill-opacity="0.72"/>
+          <path d="M33.1154 20.8595L45.512 12.5951C48.2968 10.7386 50.7522 9.91339 52.8782 10.1195C55.0042 10.2869 56.6511 11.5081 57.8189 13.7831C59.0166 15.9995 59.6155 19.2143 59.6155 23.4274C59.6155 27.7178 59.0166 31.789 57.8189 35.641C56.6211 39.4931 54.9443 42.9301 52.7883 45.9522C50.6623 48.9542 48.207 51.3835 45.4222 53.24L33.1154 61.4446V20.8595Z" fill="#A2A5B4"/>
+          <path d="M63.5178 28.9156C63.2002 43.2072 44.6776 53.4697 44.6776 53.4697L45.1814 30.7983C45.1814 30.7983 63.8354 14.6241 63.5178 28.9156Z" fill="#EAECF8"/>
+        </svg>
+        DataHatch.ai
+      </a>
+      <p class="foot-tag">We help businesses operationalize AI — fast.</p>
+      <div class="foot-contact">London, United Kingdom<br><a href="/cdn-cgi/l/email-protection#681b09040d1b280c091c0900091c0b00460901"><span class="__cf_email__" data-cfemail="7d0e1c11180e3d191c091c151c091e15531c14">[email&#160;protected]</span></a></div>
+    </div>
+    <div class="foot-col"><h4>Services</h4><ul>
+      <li><a href="#services">Aura Leads</a></li>
+      <li><a href="#services">AI Training</a></li>
+      <li><a href="#services">Support Agent</a></li>
+      <li><a href="#services">Knowledge Search</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Company</h4><ul>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#process">Our Process</a></li>
+      <li><a href="/workshops">Workshops</a></li>
+      <li><a href="/partners/databricks">Databricks Partner</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Connect</h4><ul>
+      <li><a href="#cta">Book a Call</a></li>
+      <li><a href="https://linkedin.com/company/data-hatch-ai">LinkedIn</a></li>
+      <li><a href="https://github.com/datahatchai">GitHub</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+    </ul></div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2026 Data Hatch Ltd. All rights reserved.</p>
+    <div class="foot-links"><a href="/privacy">Privacy</a><a href="/">EN</a><a href="/it">IT</a></div>
+  </div>
+</div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- SCANNER -->
+<script>
+(function(){
+  const sc=document.getElementById('scanner-canvas');if(!sc)return;
+  sc.width=sc.offsetWidth||580;sc.height=sc.offsetHeight||480;
+  const ctx=sc.getContext('2d'),W=sc.width,H=sc.height,A=[82,101,176];
+  const boxes=[
+    {x:.12,y:.18,w:.3,h:.12,label:'DATA PIPELINE',conf:.97,phase:0},
+    {x:.52,y:.35,w:.34,h:.1,label:'ML MODEL',conf:.89,phase:1.2},
+    {x:.15,y:.58,w:.24,h:.08,label:'API ENDPOINT',conf:.94,phase:2.4},
+    {x:.58,y:.65,w:.3,h:.12,label:'INFERENCE',conf:.91,phase:3.8},
+  ];
+  let t=0;
+  function draw(){
+    t+=.012;ctx.clearRect(0,0,W,H);
+    const scanY=(Math.sin(t*.4)+1)/2*H;
+    const g=ctx.createLinearGradient(0,scanY-30,0,scanY+30);
+    g.addColorStop(0,'rgba(82,101,176,0)');g.addColorStop(.5,'rgba(129,146,216,.14)');g.addColorStop(1,'rgba(82,101,176,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,scanY-30,W,60);
+    ctx.strokeStyle='rgba(129,146,216,.45)';ctx.lineWidth=.7;ctx.setLineDash([4,6]);
+    ctx.beginPath();ctx.moveTo(0,scanY);ctx.lineTo(W,scanY);ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(82,101,176,.04)';ctx.lineWidth=.5;
+    for(let gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke()}
+    for(let gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke()}
+    boxes.forEach(b=>{
+      const bMid=(b.y+b.h/2)*H;
+      const scanned=scanY>bMid;
+      let alpha=scanned?Math.min(.75,(1-Math.abs(scanY-bMid)/H)*1.5+.25):0;
+      alpha*=(0.85+Math.sin(t*2+b.phase)*0.15);
+      if(alpha>.05){
+        const x=b.x*W,y=b.y*H,bw=b.w*W,bh=b.h*H,cs=8;
+        ctx.strokeStyle=`rgba(${A},${alpha*.75})`;ctx.lineWidth=.9;
+        ctx.beginPath();ctx.moveTo(x,y+cs);ctx.lineTo(x,y);ctx.lineTo(x+cs,y);
+        ctx.moveTo(x+bw-cs,y);ctx.lineTo(x+bw,y);ctx.lineTo(x+bw,y+cs);
+        ctx.moveTo(x,y+bh-cs);ctx.lineTo(x,y+bh);ctx.lineTo(x+cs,y+bh);
+        ctx.moveTo(x+bw-cs,y+bh);ctx.lineTo(x+bw,y+bh);ctx.lineTo(x+bw,y+bh-cs);
+        ctx.stroke();
+        if(alpha>.35){ctx.fillStyle=`rgba(${A},${alpha*.6})`;ctx.font='500 9px Inter,sans-serif';ctx.fillText(b.label,x+2,y-4)}
+      }
+    });
+    const cx=W*.78,cy=H*.42,cr=20,ca=0.32+Math.sin(t*1.5)*.07;
+    ctx.strokeStyle=`rgba(${A},${ca})`;ctx.lineWidth=.8;
+    ctx.beginPath();ctx.arc(cx,cy,cr,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle=`rgba(${A},${ca*.65})`;ctx.lineWidth=.6;
+    ctx.beginPath();ctx.moveTo(cx-cr-7,cy);ctx.lineTo(cx-cr+4,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+cr-4,cy);ctx.lineTo(cx+cr+7,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,cy-cr-7);ctx.lineTo(cx,cy-cr+4);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,cy+cr-4);ctx.lineTo(cx,cy+cr+7);ctx.stroke();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+<!-- PARTICLES -->
+<script>
+(function(){
+  const cv=document.getElementById('bg-canvas'),ctx=cv.getContext('2d');
+  const A=[82,101,176];let W,H,pts;
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  function init(){pts=Array.from({length:Math.min(Math.floor((W*H)/22000),50)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*.9+.4,o:Math.random()*.28+.05}))}
+  let mx=innerWidth/2,my=innerHeight/2;
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);if(d<90){const f=(90-d)/90*.01;p.vx+=(dx/d)*f;p.vy+=(dy/d)*f}p.vx*=.999;p.vy*=.999;p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${A},${p.o})`;ctx.fill()});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<140){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(${A},${((1-d/140)*.07).toFixed(3)})`;ctx.lineWidth=.5;ctx.stroke()}}
+    requestAnimationFrame(draw);
+  }
+  resize();init();draw();
+  window.addEventListener('resize',()=>{resize();init()});
+})();
+</script>
+
+<!-- FIX 5: Process scroll — fill tracks dot centers in px not % -->
+<script>
+(function(){
+  const steps=document.querySelectorAll('.proc-step');
+  const fill=document.getElementById('proc-fill');
+  if(!steps.length||!fill)return;
+  function update(){
+    const vh=window.innerHeight;
+    const trigger=vh*0.62;
+    const firstDot=steps[0].querySelector('.proc-dot');
+    const firstR=firstDot.getBoundingClientRect();
+    const firstCenter=firstR.top+firstR.height/2;
+    let maxFillPx=0;
+    steps.forEach(step=>{
+      const dot=step.querySelector('.proc-dot');
+      const r=dot.getBoundingClientRect();
+      const dotCenter=r.top+r.height/2;
+      if(dotCenter<trigger){
+        step.classList.add('done');step.classList.remove('active');
+        maxFillPx=Math.max(maxFillPx,dotCenter-firstCenter);
+      } else if(dotCenter<trigger+60){
+        step.classList.add('active');step.classList.remove('done');
+        maxFillPx=Math.max(maxFillPx,dotCenter-firstCenter);
+      } else {
+        step.classList.remove('active','done');
+      }
+    });
+    fill.style.height=Math.max(0,maxFillPx)+'px';
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  setTimeout(update,200);
+})();
+</script>
+
+<!-- REVEAL + NAV -->
+<script>
+(function(){
+  const obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('[data-r]').forEach(function(el){obs.observe(el)});
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>60)},{passive:true});
+})();
+</script>
+</body>
+</html>
